@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trending Movies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d4afb9;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .movie-card {
+            border: 1px solid #7ec4cf;
+            margin: 10px;
+            padding: 10px;
+            max-width: 1200px; /* Adjust the maximum width as needed */
+            background-color: #fff;
+            box-shadow: 0px 0px 10px #ec44ec;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .movie-card h2 {
+            font-size: 1.5rem;
+            color: #9cadce;
+        }
+
+        .movie-card p {
+            font-size: 1rem;
+            /*color: #555;*/  
+        }
+        .movie-card p1 {
+            font-size: 1rem;
+            color: #3a1de2;
+        }
+
+        h1 {
+            color: red;
+        }
+
+        @media (max-width: 1600px) {
+            .movie-card {
+                max-width: 100%;
+            }
+            
+        }
+    </style>
+</head>
+<body>
+    <h1>Trending movies</h1>
+    <div id="movie-list"></div>
+    <script>
+
+        //axios.get('moviedata.json')
+        fetch('https://api.themoviedb.org/3/trending/movie/day?api_key=c291459428c3b1a78849d1839be735fb')
+            .then(response => response.json())
+            .then(data => {
+                displayMovies(data.results);
+            })
+            .catch(error => console.error('Error:', error));
+
+        function displayMovies(movies) {
+            const movieList = document.getElementById('movie-list');
+
+            movies.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.className = 'movie-card';
+
+                const title = document.createElement('h2');
+                title.textContent = movie.title;
+
+                const releaseDate = document.createElement('p1');
+                releaseDate.textContent = `Release Date: ${movie.release_date}`;
+
+                const overview = document.createElement('p');
+                overview.textContent = movie.overview;
+
+                movieCard.appendChild(title);
+                movieCard.appendChild(releaseDate);
+                movieCard.appendChild(overview);
+                //movieCard.appendChild(poster);
+
+                movieList.appendChild(movieCard);
+            });
+        }
+    </script>
+</body>
+</html>
